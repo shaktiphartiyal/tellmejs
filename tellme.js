@@ -15,148 +15,161 @@
  * -----------------------------------------------------------------------
  *  * --------------------------------------------------------------------
  * --------------------message -> OPTIONAL--------------------------------
- * --------------------timeout -> seconds OPTINAL-------------------------
- * --------------------timeout ->  PASS 0 FOR FIXED ALERT-----------------
+ * -------------timeout -> seconds OPTINAL 0 for fxed alert---------------
  * -----------------------------------------------------------------------
  * -----------------------------------------------------------------------
  * -----------------------------------------------------------------------
  */
 'use strict';
-var tellme = tellme || {};
-tellme= {
-    errorClass: "tm_alert-danger",
-    successClass: "tm_alert-success",
-    infoClass: "tm_alert-info",
-    warnClass: "tm_alert-warn",
-    errorSymbol: "tm_tm-error",
-    successSymbol: "tm_tm-success",
-    infoSymbol: "tm_tm-info",
-    warnSymbol: "tm_tm-warn",
-    alertDiv:null,
-    errorDisplayTimeout:5, //seconds
-    successDisplayTimeout:5, //seconds
-    infoDisplayTimeout:5, //seconds
-    warnDisplayTimeout:5, //seconds
-    alertClass:"tmX",
-    progress:100,
-    fadeTimer:null,
-    error:function(message,timeout){
-        if(!message)
-        {
-            message = "Error";
+(function(δ){
+    δ = {
+        options:{
+            errorClass: "tm_alert-danger",
+            successClass: "tm_alert-success",
+            infoClass: "tm_alert-info",
+            warnClass: "tm_alert-warn",
+            errorSymbol: "tm_tm-error",
+            successSymbol: "tm_tm-success",
+            infoSymbol: "tm_tm-info",
+            warnSymbol: "tm_tm-warn",
+            errorDisplayTimeout:5,
+            successDisplayTimeout:5,
+            infoDisplayTimeout:5,
+            warnDisplayTimeout:5,
+            alertClass:"tm_alertMsg",
+            subAlertClass:"tm_alert",
+            progressClass:"tm_alert_progress"
+        },
+        __proto__:{
+            alertDiv:null,
+            progress:100,
+            fadeTimer:null,
+            config:function (options) {
+                for (var key in options)
+                {
+                    this.options[key] = options[key];
+                }
+            },
+            error:function(message,timeout){
+                if(!message)
+                {
+                    message = "Error";
+                }
+                if(typeof(timeout) == "number")
+                {
+                    δ.options.errorDisplayTimeout = timeout;
+                }
+                δ.makeAlert(δ.options.errorClass, δ.options.errorSymbol, message);
+                δ.displayAlert(δ.options.errorDisplayTimeout);
+            },
+            success:function(message,timeout){
+                if(!message)
+                {
+                    message = "Success";
+                }
+                if(typeof(timeout) == "number")
+                {
+                    δ.options.successDisplayTimeout = timeout;
+                }
+                δ.makeAlert(δ.options.successClass, δ.options.successSymbol, message);
+                δ.displayAlert(δ.options.successDisplayTimeout);
+            },
+            info:function(message,timeout){
+                if(!message)
+                {
+                    message = "Info";
+                }
+                if(typeof(timeout) == "number")
+                {
+                    δ.options.infoDisplayTimeout = timeout;
+                }
+                δ.makeAlert(δ.options.infoClass, δ.options.infoSymbol, message);
+                δ.displayAlert(δ.options.infoDisplayTimeout);
+            },
+            warn:function(message,timeout){
+                if(!message)
+                {
+                    message = "Warning";
+                }
+                if(typeof(timeout) == "number")
+                {
+                    δ.options.infoDisplayTimeout = timeout;
+                }
+                δ.makeAlert(δ.options.warnClass, δ.options.warnSymbol, message);
+                δ.displayAlert(δ.options.infoDisplayTimeout);
+            },
+            makeAlert:function(cssClass, symbol, message){
+                δ.alertDiv = '<div class=" '+δ.options.subAlertClass+" "+cssClass+'"> <i class="'+symbol+'">&nbsp;</i>'+message+'<span class="'+δ.options.progressClass+'"></span></div>';
+            },
+            displayAlert:function(timeout){
+                δ.removePrevious();
+                var alertx = document.createElement('div');
+                alertx.className = δ.options.alertClass;
+                alertx.innerHTML = δ.alertDiv;
+                alertx.style.top = "0px";
+                document.body.appendChild(alertx);
+                alertx.addEventListener('click',function(){
+                    δ.fadeOut(this);
+                });
+                if(timeout != 0)
+                {
+                    δ.runOut(timeout);
+                }
+            },
+            removePrevious:function(){
+                for(var i=0;i<document.getElementsByClassName(δ.options.alertClass).length;i++)
+                {
+                    document.getElementsByClassName(δ.options.alertClass)[i].parentNode.removeChild(document.getElementsByClassName(δ.options.alertClass)[i]);
+                }
+            },
+            runOut:function(timeout){
+                δ.fadeTimer = setTimeout(function () {
+                    δ.progress =  δ.progress - ((10000)/(timeout * 1000));
+                    if(document.getElementsByClassName(δ.options.progressClass).length > 0)
+                    {
+                        document.getElementsByClassName(δ.options.progressClass)[0].style.width = δ.progress + "%";
+                    }
+                    else
+                    {
+                        δ.clearFadeTimeout();
+                    }
+                    if(δ.progress > -1)
+                    {
+                        δ.runOut(timeout);
+                    }
+                    else
+                    {
+                        δ.clearFadeTimeout();
+                        δ.closeAlert();
+                    }
+                }, 100);
+            },
+            closeAlert:function(){
+                var elems = document.getElementsByClassName(δ.options.alertClass);
+                for(var i=0; i<elems.length; i++)
+                {
+                    δ.fadeOut(elems[i]);
+                }
+            },
+            fadeOut:function(element){
+                var op = 1;
+                var timer = setInterval(function () {
+                    if (op <= 0.1){
+                        clearInterval(timer);
+                        element.style.display = 'none';
+                        element.remove()
+                    }
+                    element.style.opacity = op;
+                    element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+                    op -= op * 0.1;
+                }, 20);
+            },
+            clearFadeTimeout:function () {
+                window.clearTimeout(δ.fadeTimer);
+                δ.fadeTimer = null;
+                δ.progress = 100;
+            },
         }
-        if(typeof(timeout) == "number")
-        {
-            tellme.errorDisplayTimeout = timeout;
-        }
-        tellme.makeAlert(tellme.errorClass, tellme.errorSymbol, message);
-        tellme.displayAlert(tellme.errorDisplayTimeout);
-    },
-    success:function(message,timeout){
-        if(!message)
-        {
-            message = "Success";
-        }
-        if(typeof(timeout) == "number")
-        {
-            tellme.successDisplayTimeout = timeout;
-        }
-        tellme.makeAlert(tellme.successClass, tellme.successSymbol, message);
-        tellme.displayAlert(tellme.successDisplayTimeout);
-    },
-    info:function(message,timeout){
-        if(!message)
-        {
-            message = "Info";
-        }
-        if(typeof(timeout) == "number")
-        {
-            tellme.infoDisplayTimeout = timeout;
-        }
-        tellme.makeAlert(tellme.infoClass, tellme.infoSymbol, message);
-        tellme.displayAlert(tellme.infoDisplayTimeout);
-    },
-    warn:function(message,timeout){
-        if(!message)
-        {
-            message = "Warning";
-        }
-        if(typeof(timeout) == "number")
-        {
-            tellme.infoDisplayTimeout = timeout;
-        }
-        tellme.makeAlert(tellme.warnClass, tellme.warnSymbol, message);
-        tellme.displayAlert(tellme.infoDisplayTimeout);
-    },
-    makeAlert:function(cssClass, symbol, message){
-        tellme.alertDiv = '<div class="tm_alert '+cssClass+'"> <i class="'+symbol+'">&nbsp;</i>'+message+'<span class="tm_alert_progress"></span></div>';
-    },
-    displayAlert:function(timeout){
-        tellme.removePrevious();
-        var alertx = document.createElement('div');
-        alertx.className = tellme.alertClass+" tm_alertMsg";
-        alertx.innerHTML = tellme.alertDiv;
-        alertx.style.top = "0px";
-        document.body.appendChild(alertx);
-        alertx.addEventListener('click',function(){
-            tellme.fadeOut(this);
-        });
-        if(timeout != 0)
-        {
-            tellme.runOut(timeout);
-        }
-    },
-    removePrevious:function(){
-        for(var i=0;i<document.getElementsByClassName(tellme.alertClass).length;i++)
-        {
-            document.getElementsByClassName(tellme.alertClass)[i].parentNode.removeChild(document.getElementsByClassName(tellme.alertClass)[i]);
-        }
-    },
-    runOut:function(timeout){
-        tellme.fadeTimer = setTimeout(function () {
-            tellme.progress =  tellme.progress - ((10000)/(timeout * 1000));
-            if(document.getElementsByClassName('tm_alert_progress').length > 0)
-            {
-                document.getElementsByClassName('tm_alert_progress')[0].style.width = tellme.progress + "%";
-            }
-            else
-            {
-                tellme.clearFadeTimeout();
-            }
-            if(tellme.progress > -1)
-            {
-                tellme.runOut(timeout);
-            }
-            else
-            {
-                tellme.clearFadeTimeout();
-                tellme.closeAlert();
-            }
-        }, 100);
-    },
-    closeAlert:function(){
-        var elems = document.getElementsByClassName(tellme.alertClass);
-        for(var i=0; i<elems.length; i++)
-        {
-            tellme.fadeOut(elems[i]);
-        }
-    },
-    fadeOut:function(element){
-        var op = 1;
-        var timer = setInterval(function () {
-            if (op <= 0.1){
-                clearInterval(timer);
-                element.style.display = 'none';
-                element.remove()
-            }
-            element.style.opacity = op;
-            element.style.filter = 'alpha(opacity=' + op * 100 + ")";
-            op -= op * 0.1;
-        }, 20);
-    },
-    clearFadeTimeout:function () {
-        window.clearTimeout(tellme.fadeTimer);
-        tellme.fadeTimer = null;
-        tellme.progress = 100;
-    }
-};
+    };
+    window.tellme = δ;
+})();
