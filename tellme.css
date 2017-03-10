@@ -1,13 +1,12 @@
 .tm_alertMsg {
     position: fixed;
-    top: 19%;
-    right: 0; left:0;
     margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 999999;
     cursor: pointer;
+    max-width: 100%;
 }
 .tm_alertMsg .tm_alert {
     border-radius: 0;

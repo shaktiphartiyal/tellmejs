@@ -8,14 +8,15 @@
  * -----------------------------USAGE-------------------------------------
  * -----------------------------------------------------------------------
  * -----------------------------------------------------------------------
- * ------------------tellme.error(message, timeout)-----------------------
- * ------------------tellme.info(message, timeout)------------------------
- * ------------------tellme.success(message, timeout)---------------------
- * ------------------tellme.warn(message, timeout)------------------------
+ * ------------------tellme.error(message, options)-----------------------
+ * ------------------tellme.info(message, options)------------------------
+ * ------------------tellme.success(message, options)---------------------
+ * ------------------tellme.warn(message, options)------------------------
  * -----------------------------------------------------------------------
  *  * --------------------------------------------------------------------
  * --------------------message -> OPTIONAL--------------------------------
- * -------------timeout -> seconds OPTINAL 0 for fxed alert---------------
+ * -------------options -> seconds OPTINAL 0 for fxed alert---------------
+ * --------------------options -> configs---------------------------------
  * -----------------------------------------------------------------------
  * -----------------------------------------------------------------------
  * -----------------------------------------------------------------------
@@ -38,7 +39,8 @@
             warnDisplayTimeout:5,
             alertClass:"tm_alertMsg",
             subAlertClass:"tm_alert",
-            progressClass:"tm_alert_progress"
+            progressClass:"tm_alert_progress",
+            position:"top-right"
         },
         __proto__:{
             alertDiv:null,
@@ -50,50 +52,66 @@
                     this.options[key] = options[key];
                 }
             },
-            error:function(message,timeout){
+            error:function(message,options){
                 if(!message)
                 {
                     message = "Error";
                 }
-                if(typeof(timeout) == "number")
+                if(typeof(options) == "number")
                 {
-                    δ.options.errorDisplayTimeout = timeout;
+                    δ.options.errorDisplayTimeout = options;
+                }
+                else if(typeof(options) == "object")
+                {
+                    δ.config(options);
                 }
                 δ.makeAlert(δ.options.errorClass, δ.options.errorSymbol, message);
                 δ.displayAlert(δ.options.errorDisplayTimeout);
             },
-            success:function(message,timeout){
+            success:function(message,options){
                 if(!message)
                 {
                     message = "Success";
                 }
-                if(typeof(timeout) == "number")
+                if(typeof(options) == "number")
                 {
-                    δ.options.successDisplayTimeout = timeout;
+                    δ.options.successDisplayTimeout = options;
+                }
+                else if(typeof(options) == "object")
+                {
+                    δ.config(options);
                 }
                 δ.makeAlert(δ.options.successClass, δ.options.successSymbol, message);
                 δ.displayAlert(δ.options.successDisplayTimeout);
             },
-            info:function(message,timeout){
+            info:function(message,options){
                 if(!message)
                 {
                     message = "Info";
                 }
-                if(typeof(timeout) == "number")
+                if(typeof(options) == "number")
                 {
-                    δ.options.infoDisplayTimeout = timeout;
+                    δ.options.infoDisplayTimeout = options;
+                }
+                else if(typeof(options) == "object")
+                {
+                    δ.config(options);
                 }
                 δ.makeAlert(δ.options.infoClass, δ.options.infoSymbol, message);
                 δ.displayAlert(δ.options.infoDisplayTimeout);
             },
-            warn:function(message,timeout){
+            warn:function(message,options){
                 if(!message)
                 {
                     message = "Warning";
                 }
-                if(typeof(timeout) == "number")
+                if(typeof(options) == "number")
                 {
-                    δ.options.infoDisplayTimeout = timeout;
+                    δ.options.infoDisplayTimeout = options;
+                }
+                else if(typeof(options) == "object")
+                {
+                    δ.config(options);
                 }
                 δ.makeAlert(δ.options.warnClass, δ.options.warnSymbol, message);
                 δ.displayAlert(δ.options.infoDisplayTimeout);
@@ -106,8 +124,9 @@
                 var alertx = document.createElement('div');
                 alertx.className = δ.options.alertClass;
                 alertx.innerHTML = δ.alertDiv;
-                alertx.style.top = "0px";
+                δ.setPosition(alertx);
                 document.body.appendChild(alertx);
+                alertx.style.width = δ.computeMinWidth();
                 alertx.addEventListener('click',function(){
                     δ.fadeOut(this);
                 });
@@ -115,6 +134,52 @@
                 {
                     δ.runOut(timeout);
                 }
+            },
+            setPosition:function(alertx){
+                switch(δ.options.position) {
+                    case "top-center":
+                        alertx.style.top = "0";
+                        alertx.style.right = "0";
+                        alertx.style.left = "0";
+                        break;
+                    case "top-right":
+                        alertx.style.top = "0";
+                        alertx.style.right = "2px";
+                        break;
+                    case "top-left":
+                        alertx.style.top = "0";
+                        alertx.style.left = "2px";
+                        break;
+                    case "bottom-center":
+                        alertx.style.bottom = "0";
+                        alertx.style.right = "0";
+                        alertx.style.left = "0";
+                        break;
+                    case "bottom-left":
+                        alertx.style.bottom = "0";
+                        alertx.style.left = "2px";
+                        break;
+                    case "bottom-right":
+                        alertx.style.bottom = "0";
+                        alertx.style.right = "2px";
+                        break;
+                    default:
+                        alertx.style.top = "0";
+                        alertx.style.right = "0";
+                        alertx.style.left = "0";
+                }
+            },
+            computeMinWidth:function(){
+                var width = document.getElementsByClassName(δ.options.subAlertClass)[0].clientWidth;
+                if(width > window.innerWidth)
+                {
+                    width = "100%";
+                }
+                else
+                {
+                    width = width+"px";
+                }
+                return width;
             },
             removePrevious:function(){
                 for(var i=0;i<document.getElementsByClassName(δ.options.alertClass).length;i++)
