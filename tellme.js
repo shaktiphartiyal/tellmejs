@@ -8,9 +8,10 @@
  * -----------------------------USAGE-------------------------------------
  * -----------------------------------------------------------------------
  * -----------------------------------------------------------------------
- * ------------------alertify.error(message, timeout)---------------------
- * ------------------alertify.info(message, timeout)----------------------
- * ------------------alertify.success(message, timeout)-------------------
+ * ------------------tellme.error(message, timeout)-----------------------
+ * ------------------tellme.info(message, timeout)------------------------
+ * ------------------tellme.success(message, timeout)---------------------
+ * ------------------tellme.warn(message, timeout)------------------------
  * -----------------------------------------------------------------------
  *  * --------------------------------------------------------------------
  * --------------------message -> OPTIONAL--------------------------------
@@ -21,8 +22,8 @@
  * -----------------------------------------------------------------------
  */
 'use strict';
-var alertify = alertify || {};
-alertify = {
+var tellme = tellme || {};
+tellme= {
     errorClass: "alx_alert-danger",
     successClass: "alx_alert-success",
     infoClass: "alx_alert-info",
@@ -46,10 +47,10 @@ alertify = {
         }
         if(typeof(timeout) == "number")
         {
-            alertify.errorDisplayTimeout = timeout;
+            tellme.errorDisplayTimeout = timeout;
         }
-        alertify.makeAlert(alertify.errorClass, alertify.errorSymbol, message);
-        alertify.displayAlert(alertify.errorDisplayTimeout);
+        tellme.makeAlert(tellme.errorClass, tellme.errorSymbol, message);
+        tellme.displayAlert(tellme.errorDisplayTimeout);
     },
     success:function(message,timeout){
         if(!message)
@@ -58,10 +59,10 @@ alertify = {
         }
         if(typeof(timeout) == "number")
         {
-            alertify.successDisplayTimeout = timeout;
+            tellme.successDisplayTimeout = timeout;
         }
-        alertify.makeAlert(alertify.successClass, alertify.successSymbol, message);
-        alertify.displayAlert(alertify.successDisplayTimeout);
+        tellme.makeAlert(tellme.successClass, tellme.successSymbol, message);
+        tellme.displayAlert(tellme.successDisplayTimeout);
     },
     info:function(message,timeout){
         if(!message)
@@ -70,10 +71,10 @@ alertify = {
         }
         if(typeof(timeout) == "number")
         {
-            alertify.infoDisplayTimeout = timeout;
+            tellme.infoDisplayTimeout = timeout;
         }
-        alertify.makeAlert(alertify.infoClass, alertify.infoSymbol, message);
-        alertify.displayAlert(alertify.infoDisplayTimeout);
+        tellme.makeAlert(tellme.infoClass, tellme.infoSymbol, message);
+        tellme.displayAlert(tellme.infoDisplayTimeout);
     },
     warn:function(message,timeout){
         if(!message)
@@ -82,54 +83,54 @@ alertify = {
         }
         if(typeof(timeout) == "number")
         {
-            alertify.infoDisplayTimeout = timeout;
+            tellme.infoDisplayTimeout = timeout;
         }
-        alertify.makeAlert(alertify.warnClass, alertify.warnSymbol, message);
-        alertify.displayAlert(alertify.infoDisplayTimeout);
+        tellme.makeAlert(tellme.warnClass, tellme.warnSymbol, message);
+        tellme.displayAlert(tellme.infoDisplayTimeout);
     },
     makeAlert:function(cssClass, symbol, message){
-        alertify.alertDiv = '<div class="alx_alert '+cssClass+'"> <i class="'+symbol+'">&nbsp;</i>'+message+'<span class="alx_alert_progress"></span></div>';
+        tellme.alertDiv = '<div class="alx_alert '+cssClass+'"> <i class="'+symbol+'">&nbsp;</i>'+message+'<span class="alx_alert_progress"></span></div>';
     },
     displayAlert:function(timeout){
-        alertify.removePrevious();
+        tellme.removePrevious();
         var alertx = document.createElement('div');
-        alertx.className = alertify.alertClass+" alx_alertMsg";
-        alertx.innerHTML = alertify.alertDiv;
+        alertx.className = tellme.alertClass+" alx_alertMsg";
+        alertx.innerHTML = tellme.alertDiv;
         alertx.style.top = "0px";
         document.body.appendChild(alertx);
         alertx.addEventListener('click',function(){
-            alertify.fadeOut(this);
+            tellme.fadeOut(this);
         });
         if(timeout != 0)
         {
-            alertify.runOut(timeout);
+            tellme.runOut(timeout);
         }
     },
     removePrevious:function(){
-        for(var i=0;i<document.getElementsByClassName(alertify.alertClass).length;i++)
+        for(var i=0;i<document.getElementsByClassName(tellme.alertClass).length;i++)
         {
-            document.getElementsByClassName(alertify.alertClass)[i].parentNode.removeChild(document.getElementsByClassName(alertify.alertClass)[i]);
+            document.getElementsByClassName(tellme.alertClass)[i].parentNode.removeChild(document.getElementsByClassName(tellme.alertClass)[i]);
         }
     },
     runOut:function(timeout){
-        alertify.fadeTimer = setTimeout(function () {
-            alertify.progress =  alertify.progress - ((10000)/(timeout * 1000));
+        tellme.fadeTimer = setTimeout(function () {
+            tellme.progress =  tellme.progress - ((10000)/(timeout * 1000));
             if(document.getElementsByClassName('alx_alert_progress').length > 0)
             {
-                document.getElementsByClassName('alx_alert_progress')[0].style.width = alertify.progress + "%";
+                document.getElementsByClassName('alx_alert_progress')[0].style.width = tellme.progress + "%";
             }
             else
             {
-                alertify.clearFadeTimeout();
+                tellme.clearFadeTimeout();
             }
-            if(alertify.progress > -1)
+            if(tellme.progress > -1)
             {
-                alertify.runOut(timeout);
+                tellme.runOut(timeout);
             }
             else
             {
-                alertify.clearFadeTimeout();
-                alertify.closeAlert();
+                tellme.clearFadeTimeout();
+                tellme.closeAlert();
             }
         }, 100);
     },
@@ -137,7 +138,7 @@ alertify = {
         var elems = document.getElementsByClassName('alertifyX');
         for(var i=0; i<elems.length; i++)
         {
-            alertify.fadeOut(elems[i]);
+            tellme.fadeOut(elems[i]);
         }
     },
     fadeOut:function(element){
@@ -154,8 +155,8 @@ alertify = {
         }, 20);
     },
     clearFadeTimeout:function () {
-        window.clearTimeout(alertify.fadeTimer);
-        alertify.fadeTimer = null;
-        alertify.progress = 100;
+        window.clearTimeout(tellme.fadeTimer);
+        tellme.fadeTimer = null;
+        tellme.progress = 100;
     }
 };
