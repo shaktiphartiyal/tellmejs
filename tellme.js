@@ -49,7 +49,7 @@
             config:function (options) {
                 for (var key in options)
                 {
-                    this.options[key] = options[key];
+                    δ.options[key] = options[key];
                 }
             },
             error:function(message,options){
@@ -233,7 +233,7 @@
                 window.clearTimeout(δ.fadeTimer);
                 δ.fadeTimer = null;
                 δ.progress = 100;
-            },
+            }
         }
     };
     window.tellme = δ;
