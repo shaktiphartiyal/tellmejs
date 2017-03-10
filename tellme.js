@@ -121,6 +121,7 @@
             },
             displayAlert:function(timeout){
                 δ.removePrevious();
+                δ.clearFadeTimeout();
                 var alertx = document.createElement('div');
                 alertx.className = δ.options.alertClass;
                 alertx.innerHTML = δ.alertDiv;
@@ -138,33 +139,33 @@
             setPosition:function(alertx){
                 switch(δ.options.position) {
                     case "top-center":
-                        alertx.style.top = "0";
+                        alertx.style.top = "10px";
                         alertx.style.right = "0";
                         alertx.style.left = "0";
                         break;
                     case "top-right":
-                        alertx.style.top = "0";
-                        alertx.style.right = "2px";
+                        alertx.style.top = "10px";
+                        alertx.style.right = "5px";
                         break;
                     case "top-left":
-                        alertx.style.top = "0";
-                        alertx.style.left = "2px";
+                        alertx.style.top = "10px";
+                        alertx.style.left = "5px";
                         break;
                     case "bottom-center":
-                        alertx.style.bottom = "0";
+                        alertx.style.bottom = "10px";
                         alertx.style.right = "0";
                         alertx.style.left = "0";
                         break;
                     case "bottom-left":
-                        alertx.style.bottom = "0";
-                        alertx.style.left = "2px";
+                        alertx.style.bottom = "10px";
+                        alertx.style.left = "5px";
                         break;
                     case "bottom-right":
-                        alertx.style.bottom = "0";
-                        alertx.style.right = "2px";
+                        alertx.style.bottom = "10px";
+                        alertx.style.right = "5px";
                         break;
                     default:
-                        alertx.style.top = "0";
+                        alertx.style.top = "10px";
                         alertx.style.right = "0";
                         alertx.style.left = "0";
                 }
@@ -177,6 +178,10 @@
                 }
                 else
                 {
+                    if(width < 200)
+                    {
+                        width = 200;
+                    }
                     width = width+"px";
                 }
                 return width;
@@ -238,3 +243,5 @@
     };
     window.tellme = δ;
 })();
+
+//@TODO: revert to original options after display when per alert customizations are set.

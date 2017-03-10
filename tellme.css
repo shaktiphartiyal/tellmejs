@@ -12,7 +12,8 @@
     border-radius: 0;
     position: relative;
     padding: 10px 15px;
-    font-family: Arial,Verdana;
+    font-size: 14px !important;
+    font-family: Arial,Verdana !important;
 }
 span.tm_alert_progress {
     position: absolute;
@@ -35,7 +36,7 @@ span.tm_alert_progress {
     color: #fff;
 }
 .tm_alertMsg .tm_alert-warn {
-    background-color: rgba(255, 129, 0, 0.59);
+    background-color: rgb(255, 162, 37);
     color: #6b470d;
 }
 .tm_alertMsg .tm_alert-success {

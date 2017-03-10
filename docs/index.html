@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>tellme.js Documentation &amp; Demo</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <meta name="description" content="TellMe.js is an unobtrusive highly customizable JavaScript alert system library.">
+    <meta name="author" content="Shakti Phartiyal">
+
+    <link rel="stylesheet" href="../tellme.css" type="text/css">
+    <script src="../tellme.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" type="text/css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        .jumbotron {
+            background-color: #563D7C;
+            color: white;
+            border-radius: 0;
+        }
+        .col-9 {
+            padding: 0 0 0 0;
+            padding-right: 20px;
+        }
+        pre {
+            background-color: #F7F7F9;
+        }
+
+        .mrGrey {
+            background-color: #F7F7F9;
+        }
+
+        .mrRed {
+            color: #BD4147;
+        }
+
+        .menu {
+            margin: 0 0 0 50px;
+        }
+
+        .sub-menu {
+            margin: 0 0 0 35px;
+        }
+
+        .sub {
+            list-style: square outside;
+        }
+    </style>
+    <script type="text/javascript">
+        $(function(){
+            $(window).scroll(function() {
+                var top = $(document).scrollTop();
+                if (top < 250) $("#fixmenu").css({top: '0', position: 'relative'});
+                else $("#fixmenu").css({top: 40, position: 'fixed'});
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="jumbotron">
+    <h1 class="display-2">tellme.js</h1>
+    <p class="lead">A full featured, lightweight javascript browser alert display library.</p>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3">
+            <ul class="menu" id="fixmenu">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#intro">Introduction</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#install">Installation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#basic">Basic Usage</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#advanced">Advanced Configuration</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#demos">Demos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#support">Support Us</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-9">
+            <h3 id="intro">Introduction</h3>
+            <p class="text-justify">A full featured, lightweight javascript browser alert display library. These browser alerts / notifications are fully customizable on a global or on a per notification basis.</p>
+
+
+            <h3 id="install">Installation</h3>
+            <p class="text-justify">
+                Downloading and using tellme.js is a charm. Simply visit <a href="https://github.com/shaktiphartiyal/tellmejs" target="_blank">https://github.com/shaktiphartiyal/tellmejs</a> and click <strong>Clone or Download</strong>, click on <strong>Download Zip</strong>.
+                Extract the <strong>tellme.min.js</strong> and <strong>tellme.min.css</strong>  and copy to your project folder.
+            </p>
+            <p class="text-justify">
+                Include into the &lt;head&gt; section of your web page the extracted files like:<br/>
+            </p>
+            <pre><code class="mrRed">
+    &lt;link rel="stylesheet" href="tellme.min.css" type="text/css"&gt;
+    &lt;script src="tellme.min.js" type="text/javascript"&gt;&lt;/script&gt;
+ </code></pre>
+            <p class="text-justify">That’s all you need to start using tellme.js</p>
+
+            <h3 id="basic">Basic Usage</h3>
+            <p class="text-justify">
+                Four types of alerts are available in tellme.js:<br/>
+            <li>success</li>
+            <li>error</li>
+            <li>warning</li>
+            <li>informative</li>
+            <strong>Success Alert</strong><br/>
+            <pre><code>tellme.success(message,options);</code></pre>
+            <strong>Error Alert</strong><br/>
+            <pre><code>tellme.error(message,options);</code></pre>
+            <strong>Informative Alert</strong><br/>
+            <pre><code>tellme.info(message,options);</code></pre>
+            <strong>Warning Alert</strong><br/>
+            <pre><code>tellme.warn(message,options);</code></pre>
+            </p>
+            <h4>Parameter Reference:</h4>
+            <p class="text-justify">
+                <h5><b>message</b></h5>
+                <b>Optional</b> - The message you want to display.<br/>
+                <b>Default value</b> - Warning / Error / Information / Success<br/>
+                <hr/>
+                <h5><b>options</b></h5>
+                <b>Optional</b> - Alert Options / timeout . Accepts timeout(number) in seconds (the fadeout time). Pass 0 for sticky alert. You can also pass a configuration object in this parameter.
+            </p>
+            <h3 id="advanced">Advanced Configuration</h3>
+            <p class="text-justify">
+                You can configure tellme.js alerts globally or on a per alert basis.
+            </p>
+            <h5><b>Global Configuration:</b></h5>
+            <p class="text-justify">
+                You can globally configure tellme.js for the page by using the following function before calling any alert of tellme.js.
+            <pre><code>tellme.config(configObject);</code></pre>
+            </p>
+            <h5><b>Per alert Configuration:</b></h5>
+            <p class="text-justify">
+                You can set configurationof every tellme.js alert using the second parameter(options) of the alert call like the example given below:
+            <pre><code>tellme.error(message,configObject);</code></pre>
+            </p>
+            <h5><b>configObject</b></h5>
+            <pre><code class="mrRed">
+    errorClass: "tm_alert-danger",
+    successClass: "tm_alert-success",
+    infoClass: "tm_alert-info",
+    warnClass: "tm_alert-warn",
+    errorSymbol: "tm_tm-error",
+    successSymbol: "tm_tm-success",
+    infoSymbol: "tm_tm-info",
+    warnSymbol: "tm_tm-warn",
+    errorDisplayTimeout:5,
+    successDisplayTimeout:5,
+    infoDisplayTimeout:5,
+    warnDisplayTimeout:5,
+    alertClass:"tm_alertMsg",
+    subAlertClass:"tm_alert",
+    progressClass:"tm_alert_progress",
+    position:"top-right"
+			</code></pre>
+            <p class="text-justify">
+                passing these options in alert calls:
+            </p>
+            <pre><code>
+    tellme.config({
+        errorClass: "tm_alert-danger",
+        successClass: "tm_alert-success",
+        infoClass: "tm_alert-info",
+        warnClass: "tm_alert-warn",
+        errorSymbol: "tm_tm-error",
+        successSymbol: "tm_tm-success",
+        infoSymbol: "tm_tm-info",
+        warnSymbol: "tm_tm-warn",
+        errorDisplayTimeout:5,
+        successDisplayTimeout:5,
+        infoDisplayTimeout:5,
+        warnDisplayTimeout:5,
+        alertClass:"tm_alertMsg",
+        subAlertClass:"tm_alert",
+        progressClass:"tm_alert_progress",
+        position:"top-right"
+    });
+    -----------------OR----------------------
+    tellme.error("An error occured",{
+        errorClass: "tm_alert-danger",
+        successClass: "tm_alert-success",
+        infoClass: "tm_alert-info",
+        warnClass: "tm_alert-warn",
+        errorSymbol: "tm_tm-error",
+        successSymbol: "tm_tm-success",
+        infoSymbol: "tm_tm-info",
+        warnSymbol: "tm_tm-warn",
+        errorDisplayTimeout:5,
+        successDisplayTimeout:5,
+        infoDisplayTimeout:5,
+        warnDisplayTimeout:5,
+        alertClass:"tm_alertMsg",
+        subAlertClass:"tm_alert",
+        progressClass:"tm_alert_progress",
+        position:"top-right"
+    });
+            </code></pre>
+            <h3 id="demos">Demos</h3>
+            <h5><strong>Static Demos</strong></h5>
+                <button class="btn btn-primary" onClick="tellme.info('Sample Info alert',0);">Info Alert</button>
+            <button class="btn btn-primary" onClick="tellme.error('Sample error alert',0);">Error Alert</button>
+            <button class="btn btn-primary" onClick="tellme.success('Sample success alert',0);">Success Alert</button>
+            <button class="btn btn-primary" onClick="tellme.warn('Sample warning alert',0);">Warning Alert</button>
+            <br/>
+            <br/>
+            <h5><strong>Timeout Demos</strong></h5>
+            <button class="btn btn-primary" onClick="tellme.info('Sample Info alert',2);">2s Alert</button>
+            <button class="btn btn-primary" onClick="tellme.error('Sample error alert',3);">3s Alert</button>
+            <button class="btn btn-primary" onClick="tellme.success('Sample success alert',4);">4s Alert</button>
+            <button class="btn btn-primary" onClick="tellme.warn('Sample warning alert',5);">5s Alert</button>
+
+            <br/>
+            <br/>
+            <h5><strong>Positioning Demos</strong></h5>
+            <button class="btn btn-primary" onClick="tellme.info('Sample Info alert',{position:'top-left'});">top-left</button>
+            <button class="btn btn-primary" onClick="tellme.error('Sample error alert',{position:'top-right'});">top-right</button>
+            <button class="btn btn-primary" onClick="tellme.success('Sample success alert',{position:'bottom-left'});">bottom-left</button>
+            <button class="btn btn-primary" onClick="tellme.warn('Sample warning alert',{position:'bottom-right'});">bottom-right</button>
+
+
+            <br/>
+            <br/>
+            <h5><strong>Custom Icon Demos (Using Font-awesome)</strong></h5>
+            <button class="btn btn-primary" onClick="tellme.info('Sample Info alert',{infoSymbol:'fa fa-bell',infoDisplayTimeout:0});">Bell</button>
+            <button class="btn btn-primary" onClick="tellme.error('Sample error alert',{errorSymbol:'fa fa-bug',errorDisplayTimeout:0});">Bug</button>
+            <button class="btn btn-primary" onClick="tellme.success('Sample success alert',{successSymbol:'fa fa-bomb',successDisplayTimeout:0});">Bonb</button>
+            <button class="btn btn-primary" onClick="tellme.warn('Sample warning alert',{warnSymbol:'fa fa-battery-quarter',warnDisplayTimeout:0});">Battery</button>
+
+
+
+
+        </div>
+    </div>
+</div>
+<br/>
+<br/>
+<br/>
+</body>
+<script type="text/javascript">
+/*    tellme.config({
+        errorClass: "tm_alert-danger",
+        successClass: "tm_alert-success",
+        infoClass: "tm_alert-info",
+        warnClass: "tm_alert-warn",
+        errorSymbol: "tm_tm-error",
+        successSymbol: "tm_tm-success",
+        infoSymbol: "tm_tm-info",
+        warnSymbol: "tm_tm-warn",
+        errorDisplayTimeout:5,
+        successDisplayTimeout:5,
+        infoDisplayTimeout:5,
+        warnDisplayTimeout:5,
+        alertClass:"tm_alertMsg",
+        subAlertClass:"tm_alert",
+        progressClass:"tm_alert_progress",
+        position:"top-right"
+    });*/
+    tellme.info("Welcome to tellme.js, it's good to see you here !",{
+        infoDisplayTimeout:3,
+        position:"top-center"
+    });
+</script>
+</html>
+
