@@ -43,13 +43,21 @@ span.tm_alert_progress {
 }
 .tm_tm-error:before {
     content:"☢";
+    font-style: normal;
+    font-weight: bold;
 }
 .tm_tm-success:before {
     content:"☑";
+    font-style: normal;
+    font-weight: bold;
 }
 .tm_tm-info:before {
     content:"i";
+    font-style: normal;
+    font-weight: bold;
 }
 .tm_tm-warn:before {
     content:"⚠";
+    font-style: normal;
+    font-weight: bold;
 }
