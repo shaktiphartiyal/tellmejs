@@ -1,0 +1,55 @@
+.alx_alertMsg {
+    position: fixed;
+    top: 19%;
+    right: 0; left:0;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999;
+}
+.alx_alertMsg .alx_alert {
+    border-radius: 0;
+    position: relative;
+    padding: 10px 15px;
+}
+span.alx_alert_progress {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 5px;
+    width:100%;
+    background: rgba(0, 0, 0, 0.4);
+    transition: all 0.3s linear;
+    -webkit-transition: all 0.3s linear;
+    -ms-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+}
+.alx_alertMsg .alx_alert-danger {
+    background-color: #bd3431;
+    color: #fff;
+}
+.alx_alertMsg .alx_alert-info {
+    background-color: #28828f;
+    color: #fff;
+}
+.alx_alertMsg .alx_alert-warn {
+    background-color: rgba(255, 129, 0, 0.59);
+    color: #fff;
+}
+.alx_alertMsg .alx_alert-success {
+    background-color: #51a351;
+    color: #fff;
+}
+.alx_alx-error:before {
+    content:"☢";
+}
+.alx_alx-success:before {
+    content:"☑";
+}
+.alx_alx-info:before {
+    content:"i";
+}
+.alx_alx-warn:before {
+    content:"⚠";
+}
