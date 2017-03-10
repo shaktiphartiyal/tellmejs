@@ -24,20 +24,20 @@
 'use strict';
 var tellme = tellme || {};
 tellme= {
-    errorClass: "alx_alert-danger",
-    successClass: "alx_alert-success",
-    infoClass: "alx_alert-info",
-    warnClass: "alx_alert-warn",
-    errorSymbol: "alx_alx-error",
-    successSymbol: "alx_alx-success",
-    infoSymbol: "alx_alx-info",
-    warnSymbol: "alx_alx-warn",
+    errorClass: "tm_alert-danger",
+    successClass: "tm_alert-success",
+    infoClass: "tm_alert-info",
+    warnClass: "tm_alert-warn",
+    errorSymbol: "tm_tm-error",
+    successSymbol: "tm_tm-success",
+    infoSymbol: "tm_tm-info",
+    warnSymbol: "tm_tm-warn",
     alertDiv:null,
     errorDisplayTimeout:5, //seconds
     successDisplayTimeout:5, //seconds
     infoDisplayTimeout:5, //seconds
     warnDisplayTimeout:5, //seconds
-    alertClass:"alertifyX",
+    alertClass:"tmX",
     progress:100,
     fadeTimer:null,
     error:function(message,timeout){
@@ -89,12 +89,12 @@ tellme= {
         tellme.displayAlert(tellme.infoDisplayTimeout);
     },
     makeAlert:function(cssClass, symbol, message){
-        tellme.alertDiv = '<div class="alx_alert '+cssClass+'"> <i class="'+symbol+'">&nbsp;</i>'+message+'<span class="alx_alert_progress"></span></div>';
+        tellme.alertDiv = '<div class="tm_alert '+cssClass+'"> <i class="'+symbol+'">&nbsp;</i>'+message+'<span class="tm_alert_progress"></span></div>';
     },
     displayAlert:function(timeout){
         tellme.removePrevious();
         var alertx = document.createElement('div');
-        alertx.className = tellme.alertClass+" alx_alertMsg";
+        alertx.className = tellme.alertClass+" tm_alertMsg";
         alertx.innerHTML = tellme.alertDiv;
         alertx.style.top = "0px";
         document.body.appendChild(alertx);
@@ -115,9 +115,9 @@ tellme= {
     runOut:function(timeout){
         tellme.fadeTimer = setTimeout(function () {
             tellme.progress =  tellme.progress - ((10000)/(timeout * 1000));
-            if(document.getElementsByClassName('alx_alert_progress').length > 0)
+            if(document.getElementsByClassName('tm_alert_progress').length > 0)
             {
-                document.getElementsByClassName('alx_alert_progress')[0].style.width = tellme.progress + "%";
+                document.getElementsByClassName('tm_alert_progress')[0].style.width = tellme.progress + "%";
             }
             else
             {
@@ -135,7 +135,7 @@ tellme= {
         }, 100);
     },
     closeAlert:function(){
-        var elems = document.getElementsByClassName('alertifyX');
+        var elems = document.getElementsByClassName(tellme.alertClass);
         for(var i=0; i<elems.length; i++)
         {
             tellme.fadeOut(elems[i]);
