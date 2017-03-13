@@ -42,6 +42,8 @@
             progressClass:"tm_alert_progress",
             position:"top-right"
         },
+        curConfig:[],
+        curConfigIndex:0,
         __proto__:{
             alertDiv:null,
             progress:100,
@@ -52,79 +54,66 @@
                     δ.options[key] = options[key];
                 }
             },
+            makeCurConfig:function(options,timeoutVar){
+                δ.curConfig[δ.curConfigIndex] = δ.cloneObj(δ.options);
+                δ.curConfigIndex = δ.curConfig.length - 1;
+                if(typeof(options) == "object")
+                {
+                    for (var key in options)
+                    {
+                        δ.curConfig[δ.curConfigIndex][key] = options[key];
+                    }
+                }
+                if(typeof(options) == "number")
+                {
+                    δ.curConfig[δ.curConfigIndex][timeoutVar] = options;
+                }
+            },
             error:function(message,options){
                 if(!message)
                 {
                     message = "Error";
                 }
-                if(typeof(options) == "number")
-                {
-                    δ.options.errorDisplayTimeout = options;
-                }
-                else if(typeof(options) == "object")
-                {
-                    δ.config(options);
-                }
-                δ.makeAlert(δ.options.errorClass, δ.options.errorSymbol, message);
-                δ.displayAlert(δ.options.errorDisplayTimeout);
+                δ.makeCurConfig(options,'errorDisplayTimeout');
+                δ.makeAlert(δ.curConfig[δ.curConfigIndex].errorClass, δ.curConfig[δ.curConfigIndex].errorSymbol, message);
+                δ.displayAlert(δ.curConfig[δ.curConfigIndex].errorDisplayTimeout);
             },
             success:function(message,options){
                 if(!message)
                 {
                     message = "Success";
                 }
-                if(typeof(options) == "number")
-                {
-                    δ.options.successDisplayTimeout = options;
-                }
-                else if(typeof(options) == "object")
-                {
-                    δ.config(options);
-                }
-                δ.makeAlert(δ.options.successClass, δ.options.successSymbol, message);
-                δ.displayAlert(δ.options.successDisplayTimeout);
+                δ.makeCurConfig(options,'successDisplayTimeout');
+                δ.makeAlert(δ.curConfig[δ.curConfigIndex].successClass, δ.curConfig[δ.curConfigIndex].successSymbol, message);
+                δ.displayAlert(δ.curConfig[δ.curConfigIndex].successDisplayTimeout);
             },
             info:function(message,options){
                 if(!message)
                 {
                     message = "Info";
                 }
-                if(typeof(options) == "number")
-                {
-                    δ.options.infoDisplayTimeout = options;
-                }
-                else if(typeof(options) == "object")
-                {
-                    δ.config(options);
-                }
-                δ.makeAlert(δ.options.infoClass, δ.options.infoSymbol, message);
-                δ.displayAlert(δ.options.infoDisplayTimeout);
+                δ.makeCurConfig(options,'infoDisplayTimeout');
+                δ.makeAlert(δ.curConfig[δ.curConfigIndex].infoClass, δ.curConfig[δ.curConfigIndex].infoSymbol, message);
+                δ.displayAlert(δ.curConfig[δ.curConfigIndex].infoDisplayTimeout);
             },
             warn:function(message,options){
                 if(!message)
                 {
                     message = "Warning";
                 }
-                if(typeof(options) == "number")
-                {
-                    δ.options.infoDisplayTimeout = options;
-                }
-                else if(typeof(options) == "object")
-                {
-                    δ.config(options);
-                }
-                δ.makeAlert(δ.options.warnClass, δ.options.warnSymbol, message);
-                δ.displayAlert(δ.options.infoDisplayTimeout);
+                δ.makeCurConfig(options,'warnDisplayTimeout');
+                δ.makeAlert(δ.curConfig[δ.curConfigIndex].warnClass, δ.curConfig[δ.curConfigIndex].warnSymbol, message);
+                δ.displayAlert(δ.curConfig[δ.curConfigIndex].warnDisplayTimeout);
             },
             makeAlert:function(cssClass, symbol, message){
-                δ.alertDiv = '<div class=" '+δ.options.subAlertClass+" "+cssClass+'"> <i class="'+symbol+'">&nbsp;</i>'+message+'<span class="'+δ.options.progressClass+'"></span></div>';
+                δ.alertDiv = '<div class=" '+δ.curConfig[δ.curConfigIndex].subAlertClass+" "+cssClass+'"> <i class="'+symbol+'">&nbsp;</i>'+message+'<span class="'+δ.curConfig[δ.curConfigIndex].progressClass+'"></span></div>';
             },
             displayAlert:function(timeout){
                 δ.removePrevious();
                 δ.clearFadeTimeout();
                 var alertx = document.createElement('div');
-                alertx.className = δ.options.alertClass;
                 alertx.innerHTML = δ.alertDiv;
+                alertx.className = δ.curConfig[δ.curConfigIndex].alertClass;
                 δ.setPosition(alertx);
                 document.body.appendChild(alertx);
                 alertx.style.width = δ.computeMinWidth();
@@ -137,7 +126,7 @@
                 }
             },
             setPosition:function(alertx){
-                switch(δ.options.position) {
+                switch(δ.curConfig[δ.curConfigIndex].position) {
                     case "top-center":
                         alertx.style.top = "10px";
                         alertx.style.right = "0";
@@ -171,7 +160,7 @@
                 }
             },
             computeMinWidth:function(){
-                var width = document.getElementsByClassName(δ.options.subAlertClass)[0].clientWidth;
+                var width = document.getElementsByClassName(δ.curConfig[δ.curConfigIndex].subAlertClass)[0].clientWidth;
                 if(width > window.innerWidth)
                 {
                     width = "100%";
@@ -187,22 +176,25 @@
                 return width;
             },
             removePrevious:function(){
-                for(var i=0;i<document.getElementsByClassName(δ.options.alertClass).length;i++)
+                for(var i=0;i<document.getElementsByClassName(δ.curConfig[δ.curConfigIndex].alertClass).length;i++)
                 {
-                    document.getElementsByClassName(δ.options.alertClass)[i].parentNode.removeChild(document.getElementsByClassName(δ.options.alertClass)[i]);
+                    document.getElementsByClassName(δ.curConfig[δ.curConfigIndex].alertClass)[i].parentNode.removeChild(document.getElementsByClassName(δ.curConfig[δ.curConfigIndex].alertClass)[i]);
                 }
             },
             runOut:function(timeout){
                 δ.fadeTimer = setTimeout(function () {
                     δ.progress =  δ.progress - ((10000)/(timeout * 1000));
-                    if(document.getElementsByClassName(δ.options.progressClass).length > 0)
+                    try
                     {
-                        document.getElementsByClassName(δ.options.progressClass)[0].style.width = δ.progress + "%";
+                        if (document.getElementsByClassName(δ.curConfig[δ.curConfigIndex].progressClass).length > 0) {
+                            document.getElementsByClassName(δ.curConfig[δ.curConfigIndex].progressClass)[0].style.width = δ.progress + "%";
+                        }
+                        else {
+                            δ.clearFadeTimeout();
+                        }
                     }
-                    else
-                    {
-                        δ.clearFadeTimeout();
-                    }
+                    catch(e)
+                    {}
                     if(δ.progress > -1)
                     {
                         δ.runOut(timeout);
@@ -215,11 +207,15 @@
                 }, 100);
             },
             closeAlert:function(){
-                var elems = document.getElementsByClassName(δ.options.alertClass);
-                for(var i=0; i<elems.length; i++)
+                try
                 {
-                    δ.fadeOut(elems[i]);
+                    var elems = document.getElementsByClassName(δ.curConfig[δ.curConfigIndex].alertClass);
+                    for (var i = 0; i < elems.length; i++) {
+                        δ.fadeOut(elems[i]);
+                    }
                 }
+                catch(e)
+                {}
             },
             fadeOut:function(element){
                 var op = 1;
@@ -227,7 +223,8 @@
                     if (op <= 0.1){
                         clearInterval(timer);
                         element.style.display = 'none';
-                        element.remove()
+                        element.remove();
+                        δ.curConfig.splice(δ.curConfigIndex, 1);
                     }
                     element.style.opacity = op;
                     element.style.filter = 'alpha(opacity=' + op * 100 + ")";
@@ -238,10 +235,16 @@
                 window.clearTimeout(δ.fadeTimer);
                 δ.fadeTimer = null;
                 δ.progress = 100;
-            }
+            },
+            cloneObj:function(obj){
+                if (null == obj || "object" != typeof obj) return obj;
+                var copy = obj.constructor();
+                for (var attr in obj) {
+                    if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+                }
+                return copy;
+            },
         }
     };
     window.tellme = δ;
 })();
-
-//@TODO: revert to original options after display when per alert customizations are set.
