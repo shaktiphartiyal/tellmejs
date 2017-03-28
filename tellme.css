@@ -7,6 +7,7 @@
     justify-content: center;
     align-items: center;
     z-index: 999999;
+    white-space: nowrap;
 }
 .tm_alertMsg .tm_alert {
     border-radius: 0;
