@@ -7,6 +7,7 @@
     z-index: 999999;
     cursor: pointer;
     max-width: 100%;
+    white-space: nowrap;
 }
 .tm_alertMsg .tm_alert {
     border-radius: 0;
