@@ -1,18 +1,19 @@
 .tm_alertMsg {
     position: fixed;
-    top: 19%;
-    right: 0; left:0;
     margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 999999;
-    white-space: nowrap;
+    cursor: pointer;
+    max-width: 100%;
 }
 .tm_alertMsg .tm_alert {
     border-radius: 0;
     position: relative;
     padding: 10px 15px;
+    font-size: 14px !important;
+    font-family: Arial,Verdana !important;
 }
 span.tm_alert_progress {
     position: absolute;
@@ -35,8 +36,8 @@ span.tm_alert_progress {
     color: #fff;
 }
 .tm_alertMsg .tm_alert-warn {
-    background-color: rgba(255, 129, 0, 0.59);
-    color: #fff;
+    background-color: rgb(255, 162, 37);
+    color: #6b470d;
 }
 .tm_alertMsg .tm_alert-success {
     background-color: #51a351;
@@ -53,7 +54,7 @@ span.tm_alert_progress {
     font-weight: bold;
 }
 .tm_tm-info:before {
-    content:"i";
+    content:"⚡";
     font-style: normal;
     font-weight: bold;
 }
