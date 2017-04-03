@@ -40,7 +40,9 @@
             alertClass:"tm_alertMsg",
             subAlertClass:"tm_alert",
             progressClass:"tm_alert_progress",
-            position:"top-right"
+            position:"top-right",
+            open:null,
+            close:null
         },
         curConfig:[],
         curConfigIndex:0,
@@ -118,6 +120,10 @@
                 document.body.appendChild(alertx);
                 alertx.style.width = δ.computeMinWidth();
                 δ.fireOpenEvent();
+                if(typeof(δ.curConfig[δ.curConfigIndex].open) == "function")
+                {
+                    eval(δ.curConfig[δ.curConfigIndex].open());
+                }
                 alertx.addEventListener('click',function(){
                     δ.fadeOut(this);
                 });
@@ -232,6 +238,10 @@
                     op -= op * 0.1;
                 }, 20);
                 δ.fireCloseEvent();
+                if(typeof(δ.curConfig[δ.curConfigIndex].close) == "function")
+                {
+                    eval(δ.curConfig[δ.curConfigIndex].close());
+                }
             },
             fireCloseEvent:function() {
                 var event = new Event("tellmeClosed",{
