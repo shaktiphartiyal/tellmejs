@@ -117,6 +117,7 @@
                 δ.setPosition(alertx);
                 document.body.appendChild(alertx);
                 alertx.style.width = δ.computeMinWidth();
+                δ.fireOpenEvent();
                 alertx.addEventListener('click',function(){
                     δ.fadeOut(this);
                 });
@@ -230,6 +231,23 @@
                     element.style.filter = 'alpha(opacity=' + op * 100 + ")";
                     op -= op * 0.1;
                 }, 20);
+                δ.fireCloseEvent();
+            },
+            fireCloseEvent:function() {
+                var event = new Event("tellmeClosed",{
+                        bubbles: true,
+                        cancelable: true
+                    }
+                );
+                document.dispatchEvent(event);
+            },
+            fireOpenEvent:function() {
+                var event = new Event("tellmeStart",{
+                        bubbles: true,
+                        cancelable: true
+                    }
+                );
+                document.dispatchEvent(event);
             },
             clearFadeTimeout:function () {
                 window.clearTimeout(δ.fadeTimer);
