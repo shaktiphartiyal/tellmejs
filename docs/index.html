@@ -85,6 +85,12 @@
                     <a class="nav-link active" href="#advanced">Advanced Configuration</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link active" href="#callbacks">Callbacks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#events">Events</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link active" href="#demos">Demos</a>
                 </li>
                 <li class="nav-item">
@@ -173,7 +179,9 @@
     alertClass:"tm_alertMsg",
     subAlertClass:"tm_alert",
     progressClass:"tm_alert_progress",
-    position:"top-right"
+    position:"top-right",
+    open:function(){},
+    close:function(){}
 			</code></pre>
             <p class="text-justify">
                 passing these options in alert calls:
@@ -195,7 +203,9 @@
         alertClass:"tm_alertMsg",
         subAlertClass:"tm_alert",
         progressClass:"tm_alert_progress",
-        position:"top-right"
+        position:"top-right",
+        open:function(){},
+        close:function(){}
     });
     -----------------OR----------------------
     tellme.error("An error occured",{
@@ -214,9 +224,69 @@
         alertClass:"tm_alertMsg",
         subAlertClass:"tm_alert",
         progressClass:"tm_alert_progress",
-        position:"top-right"
+        position:"top-right",
+        open:function(){},
+        close:function(){}
     });
             </code></pre>
+            <h3 id="callbacks">Callbacks</h3>
+            Callback functions can be invoked on the alert display start or at the alert display close.
+            <li>
+                <strong>open</strong> callback:<br/>
+                <pre>
+                    <code>
+        tellme.info("Welcome to tellme.js, it's good to see you here !",{
+            infoDisplayTimeout:2,
+            position:"top-center",
+            open:function(){
+                 //something you want to do when the alert opens
+            }
+        });
+                    </code>
+                </pre>
+            </li>
+            <li>
+                <strong>close</strong> callback:<br/>
+                <pre>
+                    <code>
+        tellme.info("Welcome to tellme.js, it's good to see you here !",{
+            infoDisplayTimeout:2,
+            position:"top-center",
+            close:function(){
+                 //something you want to do when the alert closes
+            }
+        });
+                    </code>
+                </pre>
+            </li>
+
+            <h3 id="events">Events</h3>
+            There are two types of events associated with tellme.js alerts:<br/>
+            <li>Alert show / started event - <strong>tellmeStart</strong></li>
+            <li>Alert closed / hide event - <strong>tellmeClosed</strong></li>
+            These events are fired when an alert is opened or closed respectively. You can listen to these events using the following listeners:<br/>
+            The open Event Listener:<br/>
+            <pre>
+                <code>
+            document.addEventListener('tellmeStart', function(e){
+                console.info(e); //or do something useful here
+            }, false);
+                </code>
+            </pre>
+            The closed event listener:<br/>
+            <pre>
+                <code>
+            document.addEventListener('tellmeClosed', function(e){
+                console.info(e); //or do something useful here
+            }, false);
+                </code>
+            </pre>
+            More information on eventListener can be found here:<br/>
+            <a href="https://www.w3schools.com/jsref/met_document_addeventlistener.asp" target="_blank">The Javascript Approach</a><br/>
+            <a href="http://api.jquery.com/on/" target="_blank">The jQuery Approach</a>
+            <p></p>
+
+
             <h3 id="demos">Demos</h3>
             <h5><strong>Static Demos</strong></h5>
                 <button class="btn btn-primary" onClick="tellme.info('Sample Info alert',0);">Info Alert</button>
@@ -247,6 +317,12 @@
             <button class="btn btn-primary" onClick="tellme.error('Sample error alert',{errorSymbol:'fa fa-bug',errorDisplayTimeout:0});">Bug</button>
             <button class="btn btn-primary" onClick="tellme.success('Sample success alert',{successSymbol:'fa fa-bomb',successDisplayTimeout:0});">Bomb</button>
             <button class="btn btn-primary" onClick="tellme.warn('Sample warning alert',{warnSymbol:'fa fa-battery-quarter',warnDisplayTimeout:0});">Battery</button>
+
+            <br/>
+            <br/>
+            <h5><strong>With Callbacks</strong></h5>
+            <button class="btn btn-primary" onClick="tellme.info('Sample Info alert with open callback',{open:function(){alert('Alert initiated');}});">Open Callback</button>
+            <button class="btn btn-primary" onClick="tellme.error('Sample error alert with closed callback',{close:function(){alert('Alert close event');}});">Closed Callback</button>
         </div>
     </div>
 </div>
