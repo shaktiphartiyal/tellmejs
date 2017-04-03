@@ -51,24 +51,24 @@
             progress:100,
             fadeTimer:null,
             config:function (options) {
-                for (var key in options)
+                for (let key in options)
                 {
                     δ.options[key] = options[key];
                 }
             },
-            makeCurConfig:function(options,timeoutVar){
+            makeCurConfig:function(options,timeoutlet){
                 δ.curConfig[δ.curConfigIndex] = δ.cloneObj(δ.options);
                 δ.curConfigIndex = δ.curConfig.length - 1;
                 if(typeof(options) == "object")
                 {
-                    for (var key in options)
+                    for (let key in options)
                     {
                         δ.curConfig[δ.curConfigIndex][key] = options[key];
                     }
                 }
                 if(typeof(options) == "number")
                 {
-                    δ.curConfig[δ.curConfigIndex][timeoutVar] = options;
+                    δ.curConfig[δ.curConfigIndex][timeoutlet] = options;
                 }
             },
             error:function(message,options){
@@ -113,7 +113,7 @@
             displayAlert:function(timeout){
                 δ.removePrevious();
                 δ.clearFadeTimeout();
-                var alertx = document.createElement('div');
+                let alertx = document.createElement('div');
                 alertx.innerHTML = δ.alertDiv;
                 alertx.className = δ.curConfig[δ.curConfigIndex].alertClass;
                 δ.setPosition(alertx);
@@ -167,7 +167,7 @@
                 }
             },
             computeMinWidth:function(){
-                var width = document.getElementsByClassName(δ.curConfig[δ.curConfigIndex].subAlertClass)[0].clientWidth;
+                let width = document.getElementsByClassName(δ.curConfig[δ.curConfigIndex].subAlertClass)[0].clientWidth;
                 if(width > window.innerWidth)
                 {
                     width = "100%";
@@ -183,7 +183,7 @@
                 return width;
             },
             removePrevious:function(){
-                for(var i=0;i<document.getElementsByClassName(δ.curConfig[δ.curConfigIndex].alertClass).length;i++)
+                for(let i=0;i<document.getElementsByClassName(δ.curConfig[δ.curConfigIndex].alertClass).length;i++)
                 {
                     document.getElementsByClassName(δ.curConfig[δ.curConfigIndex].alertClass)[i].parentNode.removeChild(document.getElementsByClassName(δ.curConfig[δ.curConfigIndex].alertClass)[i]);
                 }
@@ -216,8 +216,8 @@
             closeAlert:function(){
                 try
                 {
-                    var elems = document.getElementsByClassName(δ.curConfig[δ.curConfigIndex].alertClass);
-                    for (var i = 0; i < elems.length; i++) {
+                    let elems = document.getElementsByClassName(δ.curConfig[δ.curConfigIndex].alertClass);
+                    for (let i = 0; i < elems.length; i++) {
                         δ.fadeOut(elems[i]);
                     }
                 }
@@ -225,8 +225,8 @@
                 {}
             },
             fadeOut:function(element){
-                var op = 1;
-                var timer = setInterval(function () {
+                let op = 1;
+                let timer = setInterval(function () {
                     if (op <= 0.1){
                         clearInterval(timer);
                         element.style.display = 'none';
@@ -244,7 +244,7 @@
                 }
             },
             fireCloseEvent:function() {
-                var event = new Event("tellmeClosed",{
+                let event = new Event("tellmeClosed",{
                         bubbles: true,
                         cancelable: true
                     }
@@ -252,7 +252,7 @@
                 document.dispatchEvent(event);
             },
             fireOpenEvent:function() {
-                var event = new Event("tellmeStart",{
+                let event = new Event("tellmeStart",{
                         bubbles: true,
                         cancelable: true
                     }
@@ -266,8 +266,8 @@
             },
             cloneObj:function(obj){
                 if (null == obj || "object" != typeof obj) return obj;
-                var copy = obj.constructor();
-                for (var attr in obj) {
+                let copy = obj.constructor();
+                for (let attr in obj) {
                     if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
                 }
                 return copy;
